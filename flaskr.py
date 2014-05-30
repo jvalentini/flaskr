@@ -18,6 +18,7 @@ class FlaskrController(Resource):
                             help='Missing tasks')
         args = parser.parse_args()
 
+        # Right now this comes back as a unicode string but I want a dict so I can do things like access args['tasks'][0]['key']
         print args['tasks'].__class__
         return 'test'
 
