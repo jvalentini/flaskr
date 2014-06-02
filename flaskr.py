@@ -18,9 +18,15 @@ class FlaskrController(Resource):
                             help='Missing tasks')
         args = parser.parse_args()
 
-        # Right now this comes back as a unicode string but I want a dict so I can do things like access args['tasks'][0]['key']
+        print args['tasks']
         print args['tasks'].__class__
-        return 'test'
+
+        ids = []
+        for task in args['tasks']:
+            print task
+            ids.append(task['key'])
+
+        return ids
 
 
 api.add_resource(FlaskrController, '/')
@@ -31,12 +37,6 @@ class FlaskrTestCase(unittest.TestCase):
         app.config['TESTING'] = True
         app.config['DEBUG'] = True
         self.app = app.test_client()
-
-    def test_simple(self):
-        params = {'tasks': 1}
-        response = self.app.post('/', data=json.dumps(params), content_type='application/json')
-        print response.data
-        assert response.status_code == 200
 
     def test_example(self):
         task1 = {'key': 1}
